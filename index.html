@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentines?</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .gradient-background {
+      background: linear-gradient(180deg, rgb(156, 148, 156) 0%, rgb(190, 53, 190) 36%, rgb(235, 83, 235) 100%);
+    }
+
+    .bounce {
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-20px); }
+      60% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body class="gradient-background">
+  <div class="flex items-center justify-center h-screen">
+    <div class="flex flex-col items-center p-4">
+      <img id="imageDisplay" src="https://gifdb.com/images/high/shivering-white-dog-with-chattering-teeth-heb6p3645o8irv3z.webp" 
+        alt="https://i.pinimg.com/736x/44/55/9d/44559db94351bcb4a66492dee9d6a307.jpg" class="rounded-md h-[300px] object-cover" />
+      <h2 id="questionText" class="text-4xl font-bold italic text-[#bd1e59] my-4">
+        Can I be your Valentines?
+      </h2>
+      <div class="flex gap-4 pt-[20px] items-center" id="responseButtons">
+        <button id="yesButton" class="bounce inline-flex items-center justify-center rounded-md text-[20px] 
+          font-medium hover:bg-green-400 min-h-12 min-w-[75px] px-4 py-2 bg-green-500 text-white transition">
+          Yes
+        </button>
+        <button id="noButton" class="inline-flex items-center justify-center rounded-md text-[20px] font-medium 
+          hover:bg-red-700 h-12 min-w-[75px] px-4 py-2 bg-red-500 text-white">
+          Unfortunately no
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import confetti from 'https://cdn.skypack.dev/canvas-confetti';
+
+    const yesButton = document.getElementById('yesButton');
+    const noButton = document.getElementById('noButton');
+    const imageDisplay = document.getElementById('imageDisplay');
+    const questionText = document.getElementById('questionText');
+    const responseButtons = document.getElementById('responseButtons');
+
+    let noClickCount = 0;
+    let buttonSize = 75;
+
+    const sadImages = [
+      "https://gifdb.com/images/high/sad-hamster-in-the-rain-bbt5svt3h6qc18yp.webp",
+      "https://gifdb.com/images/high/teary-eyes-sad-hamster-zy0u6295ljj1yk1t.webp",
+      "https://i.pinimg.com/736x/99/49/9e/99499e2bf94b2a71838d7405f9badb32.jpg",
+      "https://gifdb.com/images/high/shivering-white-dog-with-chattering-teeth-heb6p3645o8irv3z.webp",
+      "https://gifdb.com/images/high/shivering-white-dog-with-chattering-teeth-heb6p3645o8irv3z.webp"
+    ];
+
+    noButton.addEventListener('click', () => {
+      if (noClickCount < sadImages.length) {
+        imageDisplay.src = sadImages[noClickCount];
+        noClickCount++;
+
+       
+        buttonSize += 150;
+        yesButton.style.minWidth = `${buttonSize}px`;
+        yesButton.style.minHeight = `${buttonSize}px`;
+        yesButton.style.fontSize = `${40 + (noClickCount * 10)}px`;
+
+        
+        const noTexts = [
+          "No", "Are you sure?", "Nooo pleaseee", "Why nott :(", "You're breaking my heart...", "Just this time plzz"
+        ];
+        
+        if (noClickCount < noTexts.length) {
+          noButton.textContent = noTexts[noClickCount];
+        } else {
+          noButton.style.display = 'none'; 
+          yesButton.textContent = "Fine"; 
+        }
+      }
+    });
+
+    yesButton.addEventListener('click', () => {
+      imageDisplay.src = "https://i.pinimg.com/736x/44/55/9d/44559db94351bcb4a66492dee9d6a307.jpg";
+      questionText.textContent = "YAYYYY OKAYYYYY!!";
+      responseButtons.style.display = 'none';
+      confetti();
+    });
+  </script>
+</body>
+</html>
